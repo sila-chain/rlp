@@ -1,14 +1,14 @@
 {
   "name": "@sila-chain/rlp",
-  "version": "10.1.1",
+  "version": "10.1.2",
   "description": "Recursive Length Prefix Encoding Module",
   "keywords": [
     "rlp",
     "sila"
   ],
-  "homepage": "https://github.com/sila-chain/silajs-rlp#readme",
+  "homepage": "https://github.com/sila-chain/rlp#readme",
   "bugs": {
-    "url": "https://github.com/sila-chain/silajs-rlp/issues"
+    "url": "https://github.com/sila-chain/rlp/issues?q=is%3Aissue+label%3A%22package%3A+rlp%22"
   },
   "repository": {
     "type": "git",
@@ -46,32 +46,43 @@
     "src"
   ],
   "scripts": {
-    "biome": "npx @biomejs/biome check",
-    "biome:fix": "npx @biomejs/biome check --write",
-    "benchmarks": "node ./benchmarks/index.js",
-    "build": "../../config/cli/ts-build.sh node",
-    "build:benchmarks": "npm run build && tsc -p tsconfig.benchmarks.json",
-    "clean": "../../config/cli/clean-package.sh",
-    "coverage": "DEBUG=ethjs npx vitest run -c ../../config/vitest.config.coverage.mts",
-    "coverage:istanbul": "DEBUG=ethjs npx vitest run -c ../../config/vitest.config.coverage.istanbul.mts",
-    "examples": "tsx ../../scripts/examples-runner.ts -- rlp",
-    "examples:build": "npx embedme README.md",
-    "lint": "npm run biome && eslint  --config ./eslint.config.mjs .",
-    "lint:fix": "npm run biome:fix && eslint  --fix --config ./eslint.config.mjs .",
-    "sc": "npm run spellcheck",
-    "spellcheck": "npm run spellcheck:ts && npm run spellcheck:md",
-    "spellcheck:ts": "npx cspell --gitignore -c ../../config/cspell-ts.json \"./**/*.ts\" --cache --show-suggestions --show-context",
-    "spellcheck:md": "npx cspell --gitignore -c ../../config/cspell-md.json \"**.md\" --cache --show-suggestions --show-context",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npx vitest run --config=./vitest.config.browser.mts",
-    "test:node": "npx vitest run -c ../../config/vitest.config.mts",
-    "tsc": "../../config/cli/ts-compile.sh"
+    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:post",
+    "build:esm": "tsc --build ./tsconfig.prod.esm.json",
+    "build:cjs": "tsc --build ./tsconfig.prod.cjs.json",
+    "build:post": "node -e \"const fs=require('node:fs');for(const [dir,type] of [['dist/cjs','commonjs'],['dist/esm','module']]){fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(dir+'/package.json',JSON.stringify({type},null,2)+'\\\\n')}\"",
+    "build:benchmarks": "tsc --build ./tsconfig.benchmarks.json",
+    "clean": "node -e \"const fs=require('node:fs');for(const p of ['dist','coverage'])fs.rmSync(p,{recursive:true,force:true});for(const p of fs.readdirSync('.'))if(p.endsWith('.tsbuildinfo'))fs.rmSync(p,{force:true})\"",
+    "coverage": "vitest run --environment=node --coverage.enabled=true --coverage.provider=v8",
+    "coverage:istanbul": "vitest run --environment=node --coverage.enabled=true --coverage.provider=istanbul",
+    "examples": "tsx ./examples/simple.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:spelling": "cspell --no-progress \"**/*.{ts,mts,cjs,mjs,md}\"",
+    "prepublishOnly": "npm run clean && npm run build && npm run test",
+    "test": "npm run test:node",
+    "test:node": "vitest run --environment=node",
+    "test:browser": "vitest run --config=./vitest.config.browser.mts",
+    "tsc": "tsc -p ./tsconfig.json --noEmit"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
-    "@types/benchmark": "^2.1.5",
-    "benchmark": "^2.1.4"
+    "@eslint/js": "9.39.4",
+    "@types/benchmark": "2.1.5",
+    "@types/node": "22.13.10",
+    "@vitest/browser": "4.1.7",
+    "@vitest/browser-playwright": "4.1.7",
+    "@vitest/coverage-istanbul": "4.1.7",
+    "@vitest/coverage-v8": "4.1.7",
+    "benchmark": "2.1.4",
+    "cspell": "8.19.4",
+    "eslint": "9.39.4",
+    "eslint-plugin-import": "2.32.0",
+    "playwright": "1.60.0",
+    "tsx": "4.22.3",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.60.0",
+    "vitest": "4.1.7"
   }
 }

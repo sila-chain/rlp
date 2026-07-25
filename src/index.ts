@@ -1,4 +1,4 @@
-import { SilaJSErrorWithoutCode } from './errors.ts'
+import { SilaErrorWithoutCode } from './errors.ts'
 
 export * from './errors.ts'
 
@@ -17,7 +17,7 @@ export interface Decoded {
  */
 function decodeLength(v: Uint8Array): number {
   if (v[0] === 0) {
-    throw SilaJSErrorWithoutCode('invalid RLP: extra zeros')
+    throw SilaErrorWithoutCode('invalid RLP: extra zeros')
   }
   return parseHexByte(bytesToHex(v))
 }
@@ -41,7 +41,7 @@ function encodeLength(len: number, offset: number): Uint8Array {
  */
 function safeSlice(input: Uint8Array, start: number, end: number) {
   if (end > input.length) {
-    throw SilaJSErrorWithoutCode(
+    throw SilaErrorWithoutCode(
       'invalid RLP (safeSlice): end slice of Uint8Array out-of-bounds',
     )
   }
@@ -73,7 +73,7 @@ function _decode(input: Uint8Array): Decoded {
     }
 
     if (length === 2 && data[0] < 0x80) {
-      throw SilaJSErrorWithoutCode(
+      throw SilaErrorWithoutCode(
         'invalid RLP encoding: invalid prefix, single byte < 0x80 are not prefixed',
       )
     }
@@ -87,11 +87,11 @@ function _decode(input: Uint8Array): Decoded {
     // followed by the length, followed by the string
     lLength = firstByte - 0xb6
     if (input.length - 1 < lLength) {
-      throw SilaJSErrorWithoutCode('invalid RLP: not enough bytes for string length')
+      throw SilaErrorWithoutCode('invalid RLP: not enough bytes for string length')
     }
     length = decodeLength(safeSlice(input, 1, lLength))
     if (length <= 55) {
-      throw SilaJSErrorWithoutCode('invalid RLP: expected string length to be greater than 55')
+      throw SilaErrorWithoutCode('invalid RLP: expected string length to be greater than 55')
     }
     data = safeSlice(input, lLength, length + lLength)
 
@@ -118,11 +118,11 @@ function _decode(input: Uint8Array): Decoded {
     lLength = firstByte - 0xf6
     length = decodeLength(safeSlice(input, 1, lLength))
     if (length < 56) {
-      throw SilaJSErrorWithoutCode('invalid RLP: encoded list too short')
+      throw SilaErrorWithoutCode('invalid RLP: encoded list too short')
     }
     const totalLength = lLength + length
     if (totalLength > input.length) {
-      throw SilaJSErrorWithoutCode('invalid RLP: total length is larger than the data')
+      throw SilaErrorWithoutCode('invalid RLP: total length is larger than the data')
     }
 
     innerRemainder = safeSlice(input, lLength, totalLength)
@@ -152,7 +152,7 @@ function bytesToHex(uint8a: Uint8Array): string {
 
 function parseHexByte(hexByte: string): number {
   const byte = Number.parseInt(hexByte, 16)
-  if (Number.isNaN(byte)) throw SilaJSErrorWithoutCode('Invalid byte sequence')
+  if (Number.isNaN(byte)) throw SilaErrorWithoutCode('Invalid byte sequence')
   return byte
 }
 
@@ -170,20 +170,20 @@ function asciiToBase16(char: number): number | undefined {
  * @example hexToBytes('0xcafe0123') // Uint8Array.from([0xca, 0xfe, 0x01, 0x23])
  */
 export function hexToBytes(hex: string): Uint8Array {
-  if (hex.slice(0, 2) === '0x') hex = hex.slice(0, 2)
   if (typeof hex !== 'string')
-    throw SilaJSErrorWithoutCode('hex string expected, got ' + typeof hex)
+    throw SilaErrorWithoutCode('hex string expected, got ' + typeof hex)
+  if (hex.slice(0, 2) === '0x') hex = hex.slice(2)
   const hl = hex.length
   const al = hl / 2
   if (hl % 2)
-    throw SilaJSErrorWithoutCode('padded hex string expected, got unpadded hex of length ' + hl)
+    throw SilaErrorWithoutCode('padded hex string expected, got unpadded hex of length ' + hl)
   const array = new Uint8Array(al)
   for (let ai = 0, hi = 0; ai < al; ai++, hi += 2) {
     const n1 = asciiToBase16(hex.charCodeAt(hi))
     const n2 = asciiToBase16(hex.charCodeAt(hi + 1))
     if (n1 === undefined || n2 === undefined) {
       const char = hex[hi] + hex[hi + 1]
-      throw SilaJSErrorWithoutCode(
+      throw SilaErrorWithoutCode(
         'hex string expected, got non-hex character "' + char + '" at index ' + hi,
       )
     }
@@ -216,7 +216,7 @@ function utf8ToBytes(utf: string): Uint8Array {
 /** Transform an integer into its hexadecimal value */
 function numberToHex(integer: number | bigint): string {
   if (integer < 0) {
-    throw SilaJSErrorWithoutCode('Invalid integer as argument, must be unsigned!')
+    throw SilaErrorWithoutCode('Invalid integer as argument, must be unsigned!')
   }
   const hex = integer.toString(16)
   return hex.length % 2 ? `0${hex}` : hex
@@ -260,7 +260,7 @@ function toBytes(v: Input): Uint8Array {
   if (v === null || v === undefined) {
     return Uint8Array.from([])
   }
-  throw SilaJSErrorWithoutCode('toBytes: received unsupported type ' + typeof v)
+  throw SilaErrorWithoutCode('toBytes: received unsupported type ' + typeof v)
 }
 
 /**
@@ -311,7 +311,7 @@ export function decode(input: Input, stream = false): Uint8Array | NestedUint8Ar
     }
   }
   if (decoded.remainder.length !== 0) {
-    throw SilaJSErrorWithoutCode('invalid RLP: remainder must be zero')
+    throw SilaErrorWithoutCode('invalid RLP: remainder must be zero')
   }
 
   return decoded.data

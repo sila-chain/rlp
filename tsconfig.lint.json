@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "downlevelIteration": true,
+    "esModuleInterop": false,
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
+    "rewriteRelativeImportExtensions": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2020",
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "noEmit": true
+  },
+  "include": [
+    "./packages/**/*.ts",
+    "./packages/**/*.spec.ts",
+    "./packages/**/*.js",
+    "./packages/sila-tests/**/*.js",
+    "./packages/**/*.cjs",
+    "./packages/**/*.cts",
+    "./packages/**/*.mjs",
+    "./packages/**/*.mts"
+  ],
+  "exclude": [
+    "./packages/client/devnets",
+    "./packages/client/archive",
+    "**/sila-tests/**/*",
+    "package.json"
+  ]
+}

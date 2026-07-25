@@ -16,7 +16,7 @@
 - [Browser](#browser)
 - [API](#api)
 - [CLI](#cli)
-- [SilaJS](#silajs)
+- [Sila](#sila)
 - [License](#license)
 
 ## Installation
@@ -49,7 +49,7 @@ console.log('assert.deepStrictEqual would have thrown if the decoded output did 
 
 We provide hybrid ESM/CJS builds for all our libraries. With the v10 breaking release round from Spring 2025, all libraries are "pure-JS" by default and we have eliminated all hard-wired WASM code. Additionally we have substantially lowered the bundle sizes, reduced the number of dependencies, and cut out all usages of Node.js-specific primitives (like the Node.js event emitter).
 
-It is easily possible to run a browser build of one of the SilaJS libraries within a modern browser using the provided ESM build. For a setup example see [./examples/browser.html](./examples/browser.html).
+It is easily possible to run a browser build of one of the Sila libraries within a modern browser using the provided ESM build. For a setup example see [./examples/browser.html](./examples/browser.html).
 
 ## API
 
@@ -69,9 +69,9 @@ It is easily possible to run a browser build of one of the SilaJS libraries with
 - `rlp encode '["cat", "dog"]'` -> `0xc88363617483646f67`
 - `rlp decode 0xc88363617483646f67` -> `["cat","dog"]`
 
-## SilaJS
+## Sila
 
-The `SilaJS` GitHub organization and its repositories are managed by members of the former Sila Foundation JavaScript team and the broader Sila community. If you want to join for work or carry out improvements on the libraries see the [developer docs](../../DEVELOPER.md) for an overview of current standards and tools and review our [code of conduct](../../CODE_OF_CONDUCT.md).
+The `Sila` GitHub organization and its repositories are managed by members of the former Sila Foundation JavaScript team and the broader Sila community. If you want to join for work or carry out improvements on the libraries see the [developer docs](../../DEVELOPER.md) for an overview of current standards and tools and review our [code of conduct](../../CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -81,9 +81,9 @@ The `SilaJS` GitHub organization and its repositories are managed by members of 
 [discord-link]: https://discord.gg/TNwARpR
 [rlp-npm-badge]: https://img.shields.io/npm/v/@sila-chain/rlp.svg
 [rlp-npm-link]: https://www.npmjs.com/package/@sila-chain/rlp
-[rlp-issues-badge]: https://img.shields.io/github/issues/silajs/silajs-monorepo/package:%20rlp?label=issues
-[rlp-issues-link]: https://github.com/sila-chain/silajs-rlp/issues?q=is%3Aopen+is%3Aissue+label%3A"package%3A+rlp"
-[rlp-actions-badge]: https://github.com/sila-chain/silajs-rlp/actions/workflows/static-build.yml/badge.svg
-[rlp-actions-link]: https://github.com/sila-chain/silajs-rlp/actions?query=workflow%3A%22rlp%22
-[rlp-coverage-badge]: https://codecov.io/gh/silajs/silajs-monorepo/branch/master/graph/badge.svg?flag=rlp
-[rlp-coverage-link]: https://codecov.io/gh/silajs/silajs-monorepo/tree/master/packages/rlp
+[rlp-issues-badge]: https://img.shields.io/github/issues/sila-chain/rlp/package:%20rlp?label=issues
+[rlp-issues-link]: https://github.com/sila-chain/rlp/issues?q=is%3Aopen+is%3Aissue+label%3A"package%3A+rlp"
+[rlp-actions-badge]: https://github.com/sila-chain/rlp/actions/workflows/static-build.yml/badge.svg
+[rlp-actions-link]: https://github.com/sila-chain/rlp/actions?query=workflow%3A%22rlp%22
+[rlp-coverage-badge]: https://codecov.io/gh/sila-chain/rlp/branch/master/graph/badge.svg?flag=rlp
+[rlp-coverage-link]: https://codecov.io/gh/sila-chain/rlp/tree/master/packages/rlp

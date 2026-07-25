@@ -1,39 +1,39 @@
 /**
- * Generic SilaJS error class with metadata attached
+ * Generic Sila error class with metadata attached
  *
  * Kudos to https://github.com/ChainSafe/lodestar monorepo
  * for the inspiration :-)
  * See: https://github.com/ChainSafe/lodestar/blob/unstable/packages/utils/src/errors.ts
  */
-export type SilaJSErrorMetaData = Record<string, string | number | null>;
-export type SilaJSErrorObject = {
+export type SilaErrorMetaData = Record<string, string | number | null>;
+export type SilaErrorObject = {
     message: string;
     stack: string;
     className: string;
-    type: SilaJSErrorMetaData;
+    type: SilaErrorMetaData;
 };
 export declare const DEFAULT_ERROR_CODE = "SILAJS_DEFAULT_ERROR_CODE";
 /**
- * Generic SilaJS error with attached metadata
+ * Generic Sila error with attached metadata
  */
-export declare class SilaJSError<T extends {
+export declare class SilaError<T extends {
     code: string;
 }> extends Error {
     type: T;
     constructor(type: T, message?: string, stack?: string);
-    getMetadata(): SilaJSErrorMetaData;
+    getMetadata(): SilaErrorMetaData;
     /**
      * Get the metadata and the stacktrace for the error.
      */
-    toObject(): SilaJSErrorObject;
+    toObject(): SilaErrorObject;
 }
 /**
- * @deprecated Use `SilaJSError` with a set error code instead
+ * @deprecated Use `SilaError` with a set error code instead
  * @param message Optional error message
  * @param stack Optional stack trace
  * @returns
  */
-export declare function SilaJSErrorWithoutCode(message?: string, stack?: string): SilaJSError<{
+export declare function SilaErrorWithoutCode(message?: string, stack?: string): SilaError<{
     code: string;
 }>;
 //# sourceMappingURL=errors.d.ts.map

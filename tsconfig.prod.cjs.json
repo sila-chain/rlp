@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "downlevelIteration": true,
+    "esModuleInterop": false,
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "rewriteRelativeImportExtensions": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2020",
+    "verbatimModuleSyntax": false,
+    "erasableSyntaxOnly": true,
+    "rootDir": "src",
+    "outDir": "dist/cjs"
+  },
+  "include": [
+    "src/*.ts"
+  ]
+}
